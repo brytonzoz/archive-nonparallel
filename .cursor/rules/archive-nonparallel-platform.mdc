@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# archive.nonparallel.io – Creative Hub Rulebook
+
+## Purpose
+The rules in this file define how we design, build, and organize the **archive.nonparallel.io** web-platform.  This site is the single shareable link for Bryton Zoz's purely creative output (music + fashion) and is **distinct** from [bryton.studio](mdc:bryton.studio) (technical portfolio).
+
+## Information Architecture
+1.  **Two Primary Pillars** (top-level nav & URL namespaces):
+    • `/music`  – showcases self-hosted/indie distribution portals.
+    • `/fashion` – showcases streaming/e-commerce fashion projects.
+
+2.  **Project Cards** (reusable React component)
+    • Title, short blurb, tags (platform / type / year)
+    • Hero visual (auto-pulled og:image or local thumbnail)
+    • Actions:  "Visit Site", "Watch", "Listen", etc.
+    • Optional Embed (audio player, video, iframe) when CORS allows.
+
+3.  **Current Sources**
+    Music
+    ```yaml
+    - name: Just A Reminder To Live Life
+      url: https://justaremindertolivelife.com
+      type: procedural-mixtape
+      status: live
+    - name: The Archive (Music)
+      url: https://nonparallel.wixstudio.com/archive
+      type: multi-purpose stream
+      status: beta
+    ```
+    Fashion
+    ```yaml
+    - name: Loopless Collection (Episodes)
+      url: https://nonparallel.wixstudio.com/archive/thearchive-fashion-1
+      type: video-series
+      status: live
+    - name: Scrapwrk Store
+      url: https://scrapwrk.com
+      type: ecommerce
+      status: alpha
+    ```
+    • Add new items by extending the YAML in `data/projects.yml`.
+
+## Design Language
+* **Style Reference**: iOS 26 concept guidelines – glass-morphism + spatial UI.
+* **Visual Traits**: liquid-glass surfaces, blurred translucency, high-saturation gradients.
+* **Shape System**: 4-point grid, **12 px radius** default, pill buttons, bubbly badges.
+* **Typography**: 
+  – Display: SF Pro Rounded / alternative rounded grotesque.
+  – Body: Inter 1.9 rem line-height.
+* **Motion**: springy ease-out animations (200–400 ms), hover lift (Z translate 4 px).  Disable if `prefers-reduced-motion`.
+* **Color Palette** (HSL):
+  – Neon Coral h6° s85% l60%  
+  – Electric Azure h198° s100% l53%  
+  – Citrine h57° s100% l55%  
+  – Deep Charcoal h220° s15% l12% (background)
+
+## Tech Stack & Repo Conventions
+* **Framework**: Next.js 14 (app-router).  Directory `/apps/archive`.
+* **Styling**: Tailwind CSS with custom preset `tailwind.preset.js` for the palette above.
+* **Component Library**: Shadcn/ui fork with rounded-glass variants.
+* **State/Content**: Projects pulled from `/data/projects.yml` via FS or CMS.
+* **CI**: Vercel preview deployments on PR.
+
+## Development Workflow
+1. Add/modify project in `data/projects.yml` → run `yarn dev` to hot-reload.
+2. Ensure each project has a 1200×630 og:image in `/public/og/`.
+3. Write an accompanying MDX file in `/content/projects/` for deep-dive pages.
+4. Accessibility pass (Lighthouse ≥ 90) before merging.
+
+## Branding Assets
+* Logo word-mark `archive.nonparallel` (lowercase, medium weight) with glass-bubble background.
+* Favicon `favicon.svg`  — stylised "⟲" arrow loop symbolizing archive.
+
+## External Links & Tracking
+* Use `target="_blank" rel="noopener noreferrer"`.
+* Simple analytics via Vercel Web Analytics, no cookies.
+
+## Future-proofing
+* Provide dark-&-light themes (auto via `prefers-color-scheme`).
+* Modular section to plug in **games**, **AR try-on**, or other media.
+
+---
+_Any PR touching design tokens or IA must reference this rulebook.  Deviations need a `@design-review` label and approval from Bryton._
